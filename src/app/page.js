@@ -1,13 +1,14 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { Input } from "../components/Input";
 import { Select } from "../components/Select";
+import { SubmitButton } from "../components/SubmitButton";
 import { TransactionList } from "../components/TransactionList";
 
-const API_URL = "http://localhost:8080/api/v1/transactions"; // Caminho atualizado
+const API_URL = "http://localhost:8080/api/v1/transactions";
 
 export default function Home() {
-  const [name, setName] = useState("");
   const [description, setDescription] = useState("");
   const [amount, setAmount] = useState("");
   const [type, setType] = useState("income");
@@ -30,13 +31,12 @@ export default function Home() {
   };
 
   const addTransaction = async () => {
-    if (!name || !description || !amount) {
+    if (!description || !amount) {
       alert("Preencha todos os campos!");
       return;
     }
 
     const newTransaction = {
-      name,
       description,
       amount: parseFloat(amount),
       type,
@@ -51,7 +51,6 @@ export default function Home() {
 
       if (!response.ok) throw new Error("Erro ao adicionar transação");
 
-      setName("");
       setDescription("");
       setAmount("");
       fetchTransactions(); // Atualiza a lista
@@ -67,49 +66,28 @@ export default function Home() {
           Controle Financeiro
         </h1>
 
-        {/* Input do Nome */}
-        <input
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-          placeholder="Digite o nome..."
-          className="w-full mb-3 p-3 border rounded-lg text-blue-800 placeholder-gray-500 focus:outline-blue-600"
-        />
-
         {/* Input da Descrição */}
-        <input
+        <Input
+          label="Descrição"
           value={description}
           onChange={(e) => setDescription(e.target.value)}
           placeholder="Digite a descrição..."
-          className="w-full mb-3 p-3 border rounded-lg text-blue-800 placeholder-gray-500 focus:outline-blue-600"
         />
 
         {/* Input do Valor */}
-        <input
+        <Input
+          label="Valor"
           type="number"
           value={amount}
           onChange={(e) => setAmount(e.target.value)}
           placeholder="Digite o valor..."
-          className="w-full mb-3 p-3 border rounded-lg text-blue-800 placeholder-gray-500 focus:outline-blue-600"
         />
 
         {/* Seleção de Tipo */}
-        <Select
-          value={type}
-          onChange={(e) => setType(e.target.value)}
-          options={[
-            { value: "income", label: "Entrada" },
-            { value: "expense", label: "Saída" },
-          ]}
-          className="w-full mb-3 p-3 border rounded-lg text-blue-800 focus:outline-blue-600"
-        />
+        <Select value={type} onChange={(e) => setType(e.target.value)} />
 
         {/* Botão de Adicionar */}
-        <button
-          onClick={addTransaction}
-          className="w-full bg-blue-600 text-white p-3 rounded-lg hover:bg-blue-700 transition-all active:scale-95"
-        >
-          Adicionar Transação
-        </button>
+        <SubmitButton onClick={addTransaction} />
 
         {/* Lista de Transações */}
         <TransactionList transactions={transactions} />
