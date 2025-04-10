@@ -6,7 +6,7 @@ import { Select } from "../components/Select";
 import { SubmitButton } from "../components/SubmitButton";
 import { TransactionList } from "../components/TransactionList";
 
-const API_URL = "http://localhost:8080/api/v1/transactions";
+const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
 export default function Home() {
   const [description, setDescription] = useState("");
