@@ -6,7 +6,7 @@ import { Select } from "../components/Select";
 import { SubmitButton } from "../components/SubmitButton";
 import { TransactionList } from "../components/TransactionList";
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL;
+const API_PATH = process.env.API_PATH;
 
 export default function Home() {
   const [description, setDescription] = useState("");
@@ -21,7 +21,7 @@ export default function Home() {
 
   const fetchTransactions = async () => {
     try {
-      const response = await fetch(API_URL);
+      const response = await fetch(API_PATH);
       if (!response.ok) throw new Error("Erro ao buscar transações");
       const data = await response.json();
       setTransactions(data);
@@ -43,7 +43,7 @@ export default function Home() {
     };
 
     try {
-      const response = await fetch(API_URL, {
+      const response = await fetch(API_PATH, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(newTransaction),
