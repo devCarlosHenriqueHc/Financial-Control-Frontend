@@ -6,7 +6,11 @@ import { Select } from "../components/Select";
 import { SubmitButton } from "../components/SubmitButton";
 import { TransactionList } from "../components/TransactionList";
 
-const API_PATH = process.env.API_PATH;
+// Define a URL da API com fallback local
+const API_BASE_URL =
+  process.env.NEXT_PUBLIC_API_URL || "http://localhost:8080";
+
+const API_PATH = `${API_BASE_URL}/transacoes`;
 
 export default function Home() {
   const [description, setDescription] = useState("");
@@ -14,7 +18,6 @@ export default function Home() {
   const [type, setType] = useState("income");
   const [transactions, setTransactions] = useState([]);
 
-  // Buscar transações ao carregar a página
   useEffect(() => {
     fetchTransactions();
   }, []);
@@ -66,7 +69,6 @@ export default function Home() {
           Controle Financeiro
         </h1>
 
-        {/* Input da Descrição */}
         <Input
           label="Descrição"
           value={description}
@@ -74,7 +76,6 @@ export default function Home() {
           placeholder="Digite a descrição..."
         />
 
-        {/* Input do Valor */}
         <Input
           label="Valor"
           type="number"
@@ -83,13 +84,10 @@ export default function Home() {
           placeholder="Digite o valor..."
         />
 
-        {/* Seleção de Tipo */}
         <Select value={type} onChange={(e) => setType(e.target.value)} />
 
-        {/* Botão de Adicionar */}
         <SubmitButton onClick={addTransaction} />
 
-        {/* Lista de Transações */}
         <TransactionList transactions={transactions} />
       </div>
     </div>
