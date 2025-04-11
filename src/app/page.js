@@ -6,9 +6,8 @@ import { Select } from "../components/Select";
 import { SubmitButton } from "../components/SubmitButton";
 import { TransactionList } from "../components/TransactionList";
 
-// Define a URL da API com fallback local
-const API_BASE_URL =
-  process.env.NEXT_PUBLIC_API_URL || "http://localhost:8080";
+// URL da API configurada via variável de ambiente (a variável será setada na Vercel)
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8080";
 
 const API_PATH = `${API_BASE_URL}/transacoes`;
 
@@ -18,10 +17,12 @@ export default function Home() {
   const [type, setType] = useState("income");
   const [transactions, setTransactions] = useState([]);
 
+  // Carregar transações ao montar o componente
   useEffect(() => {
     fetchTransactions();
   }, []);
 
+  // Função para buscar transações
   const fetchTransactions = async () => {
     try {
       const response = await fetch(API_PATH);
@@ -33,6 +34,7 @@ export default function Home() {
     }
   };
 
+  // Função para adicionar uma nova transação
   const addTransaction = async () => {
     if (!description || !amount) {
       alert("Preencha todos os campos!");
