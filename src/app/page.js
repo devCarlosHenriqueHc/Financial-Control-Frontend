@@ -9,7 +9,8 @@ import { TransactionList } from "../components/TransactionList";
 // URL da API configurada via variável de ambiente (a variável será setada na Vercel)
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || "https://financial-control-backend-xeeg.onrender.com";
 
-const API_PATH = `${API_BASE_URL}/transacoes`;
+// ✅ Caminho corrigido para bater com o backend Spring Boot
+const API_PATH = `${API_BASE_URL}/api/v1/transactions`;
 
 export default function Home() {
   const [description, setDescription] = useState("");
@@ -17,12 +18,10 @@ export default function Home() {
   const [type, setType] = useState("income");
   const [transactions, setTransactions] = useState([]);
 
-  // Carregar transações ao montar o componente
   useEffect(() => {
     fetchTransactions();
   }, []);
 
-  // Função para buscar transações
   const fetchTransactions = async () => {
     try {
       const response = await fetch(API_PATH);
@@ -34,7 +33,6 @@ export default function Home() {
     }
   };
 
-  // Função para adicionar uma nova transação
   const addTransaction = async () => {
     if (!description || !amount) {
       alert("Preencha todos os campos!");
