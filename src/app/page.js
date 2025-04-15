@@ -7,7 +7,7 @@ import { SubmitButton } from "../components/SubmitButton";
 import { TransactionList } from "../components/TransactionList";
 
 // URL da API configurada via variável de ambiente (a variável será setada na Vercel)
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL; // || "https://financial-control-backend-xeeg.onrender.com";
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
 
 // ✅ Caminho corrigido para bater com o backend Spring Boot
 const API_PATH = `${API_BASE_URL}/api/v1/transactions`;
