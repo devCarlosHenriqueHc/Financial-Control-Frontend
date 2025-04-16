@@ -14,18 +14,22 @@ const formatDate = (isoString) => {
 
 export const TransactionList = ({ transactions }) => {
   return (
-    <ul className="border p-2 rounded w-full bg-white mt-4 shadow">
+    <ul className="border border-gray-700 p-2 rounded w-full bg-input-bg mt-4 shadow">
       {transactions.length === 0 ? (
-        <li className="p-2 text-gray-500 text-center">Nenhuma transação cadastrada.</li>
+        <li className="p-2 text-gray-400 text-center">Nenhuma transação cadastrada.</li>
       ) : (
         transactions.map((t, index) => (
-          <li key={index} className="p-2 border-b">
+          <li key={index} className="p-2 border-b border-gray-700">
             <div className="flex justify-between items-center">
               <div>
-                <strong>{t.description}</strong>
-                <div className="text-sm text-gray-500">{formatDate(t.createdAt)}</div>
+                <strong className="text-foreground">{t.description}</strong>
+                <div className="text-sm text-gray-400">{formatDate(t.createdAt)}</div>
               </div>
-              <div className={`font-bold ${t.type === "income" ? "text-green-600" : "text-red-600"}`}>
+              <div
+                className={`font-bold ${
+                  t.type === "income" ? "text-gain" : "text-loss"
+                }`}
+              >
                 R$ {parseFloat(t.amount).toFixed(2)}
               </div>
             </div>

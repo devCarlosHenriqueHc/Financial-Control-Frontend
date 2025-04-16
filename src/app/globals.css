@@ -2,20 +2,11 @@
 @import "tailwindcss/preflight";
 @tailwind utilities;
 
-/* Cores principais */
+/* Tema fixo escuro */
 :root {
-  --background: #e3f2fd; /* Azul neutro */
-  --foreground: #0d47a1; /* Azul escuro */
-  --text-primary: #000000; /* Texto principal preto */
-}
-
-/* Tema escuro */
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-    --text-primary: #000000;
-  }
+  --background: #000000;
+  --foreground: #ffffff;
+  --text-primary: #ffffff;
 }
 
 /* Estilização global */
@@ -27,19 +18,23 @@ body {
 
 /* Ajustando cor do placeholder */
 ::placeholder {
-  color: var(--text-primary);
+  color: #cccccc;
   opacity: 1;
-  font: black;
 }
 
 /* Ajustando texto do select */
 select {
   color: var(--text-primary);
-  font: black;
+  background-color: #2a2a2a;
+  border: 1px solid #444;
+  padding: 0.5rem;
+  border-radius: 0.5rem;
 }
 
 /* Ajustando texto do botão */
 button {
-  color: var(--text-primary);
-  font: black;
+  color: #ffffff;
+  background-color: #0d47a1;
+  border-radius: 0.5rem;
+  padding: 0.5rem 1rem;
 }

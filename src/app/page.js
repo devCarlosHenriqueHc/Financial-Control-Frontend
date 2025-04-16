@@ -6,10 +6,8 @@ import { Select } from "../components/Select";
 import { SubmitButton } from "../components/SubmitButton";
 import { TransactionList } from "../components/TransactionList";
 
-// URL da API configurada via variável de ambiente (a variável será setada na Vercel)
+// URL da API configurada via variável de ambiente
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
-
-// ✅ Caminho corrigido para bater com o backend Spring Boot
 const API_PATH = `${API_BASE_URL}/api/v1/transactions`;
 
 export default function Home() {
@@ -56,16 +54,16 @@ export default function Home() {
 
       setDescription("");
       setAmount("");
-      fetchTransactions(); // Atualiza a lista
+      fetchTransactions();
     } catch (error) {
       console.error("Erro ao adicionar transação:", error);
     }
   };
 
   return (
-    <div className="flex justify-center items-center min-h-screen bg-blue-100">
-      <div className="bg-white shadow-xl rounded-xl p-6 w-full max-w-md border border-blue-300">
-        <h1 className="text-2xl font-bold text-blue-700 text-center mb-4">
+    <div className="flex justify-center items-center min-h-screen bg-background text-foreground px-4">
+      <div className="w-full max-w-md p-6 rounded-xl">
+        <h1 className="text-2xl font-bold text-center mb-4">
           Controle Financeiro
         </h1>
 
@@ -73,15 +71,15 @@ export default function Home() {
           label="Descrição"
           value={description}
           onChange={(e) => setDescription(e.target.value)}
-          placeholder="Digite a descrição..."
+          placeholder="Descreva a transação"
         />
 
         <Input
-          label="Valor"
+          label="Montante"
           type="number"
           value={amount}
           onChange={(e) => setAmount(e.target.value)}
-          placeholder="Digite o valor..."
+          placeholder="Valor da transação"
         />
 
         <Select value={type} onChange={(e) => setType(e.target.value)} />
