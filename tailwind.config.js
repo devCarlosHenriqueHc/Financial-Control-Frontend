@@ -7,16 +7,7 @@ module.exports = {
     "./src/components/**/*.{js,jsx,ts,tsx}"
   ],
   theme: {
-    extend: {
-      colors: {
-        background: '#000000',
-        foreground: '#ffffff',
-        'input-bg': '#2a2a2a',
-        'button-bg': '#0d47a1',
-        gain: '#00ff00',
-        loss: '#ff0000',
-      },
-    },
+    extend: {},
   },
   plugins: [],
 };

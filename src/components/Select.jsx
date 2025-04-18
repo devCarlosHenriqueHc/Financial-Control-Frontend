@@ -3,7 +3,7 @@ import React from "react";
 export const Select = ({ value, onChange }) => {
   return (
     <select
-      className="bg-input-bg border border-gray-700 p-2 rounded w-full text-foreground placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-button-bg"
+      className="border rounded p-2 dark:border-gray-600"
       value={value}
       onChange={onChange}
     >

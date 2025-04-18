@@ -2,14 +2,14 @@ import React from "react";
 
 export const Input = ({ label, type = "text", placeholder, value, onChange }) => {
   return (
-    <div className="mb-4">
+    <div className="flex flex-col">
       {label && (
-        <label className="block text-foreground font-semibold mb-1">
+        <label className="">
           {label}
         </label>
       )}
       <input
-        className="bg-input-bg border border-gray-700 p-2 rounded w-full text-foreground placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-button-bg"
+        className="border rounded p-2 dark:border-gray-600"
         type={type}
         placeholder={placeholder}
         value={value}

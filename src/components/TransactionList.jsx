@@ -1,38 +1,38 @@
 import React from "react";
 
-// Função utilitária para formatar data e hora
-const formatDate = (isoString) => {
-  const date = new Date(isoString);
-  return date.toLocaleString("pt-BR", {
-    day: "2-digit",
-    month: "2-digit",
-    year: "numeric",
-    hour: "2-digit",
-    minute: "2-digit",
-  });
-};
-
 export const TransactionList = ({ transactions }) => {
+  function formatDate(date) {
+    const monthFormatter = new Intl.DateTimeFormat('pt-BR', { month: 'long' });
+    const day = date.getDate();
+    let month = monthFormatter.format(date);
+    return `${month}, ${day}`;
+  }
+
+  function formatCurrency(amount) {
+    return new Intl.NumberFormat('pt-BR', {
+      style: 'currency',
+      currency: 'BRL',
+      minimumFractionDigits: 2,
+    }).format(amount);
+  }
+
   return (
-    <ul className="border border-gray-700 p-2 rounded w-full bg-input-bg mt-4 shadow">
+    <ul className="flex flex-col gap-2 overflow-y-auto my-2">
       {transactions.length === 0 ? (
-        <li className="p-2 text-gray-400 text-center">Nenhuma transação cadastrada.</li>
+        <li className="">Nenhuma transação cadastrada.</li>
       ) : (
-        transactions.map((t, index) => (
-          <li key={index} className="p-2 border-b border-gray-700">
-            <div className="flex justify-between items-center">
-              <div>
-                <strong className="text-foreground">{t.description}</strong>
-                <div className="text-sm text-gray-400">{formatDate(t.createdAt)}</div>
-              </div>
-              <div
-                className={`font-bold ${
-                  t.type === "income" ? "text-gain" : "text-loss"
-                }`}
-              >
-                R$ {parseFloat(t.amount).toFixed(2)}
-              </div>
+        transactions.map((transaction, index) => (
+          <li key={index} className="flex justify-between border-b border-gray-400 py-2 dark:border-gray-700">
+            <div>
+              <p>{transaction.description}</p>
+              <p className="italic text-xs">{formatDate(new Date(transaction.createdAt))}</p>
             </div>
+            {transaction.type === "income" && (
+              <p className="font-bold text-green-500">{formatCurrency(transaction.amount)}</p>
+            )}
+            {transaction.type === "expense" && (
+              <p className="font-bold text-red-500">{formatCurrency(transaction.amount)}</p>
+            )}
           </li>
         ))
       )}

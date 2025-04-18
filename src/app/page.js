@@ -61,11 +61,11 @@ export default function Home() {
   };
 
   return (
-    <div className="flex justify-center items-center min-h-screen bg-background text-foreground px-4">
-      <div className="w-full max-w-md p-6 rounded-xl">
-        <h1 className="text-2xl font-bold text-center mb-4">
-          Controle Financeiro
-        </h1>
+    <div className="w-full flex justify-center dark:bg-[#222] dark:text-white h-screen">
+      <div className="w-[450px] max-w-[450px] flex flex-col gap-2">
+        <div className="w-full flex justify-center py-10">
+          <p className="text-5xl font-bold">Controle Financeiro</p>
+        </div>
 
         <Input
           label="Descrição"
@@ -82,6 +82,7 @@ export default function Home() {
           placeholder="Valor da transação"
         />
 
+        <label className="mt-2 mb-[-5px]">Selecione tipo da transação</label>
         <Select value={type} onChange={(e) => setType(e.target.value)} />
 
         <SubmitButton onClick={addTransaction} />
