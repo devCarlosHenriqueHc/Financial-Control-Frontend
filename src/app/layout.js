@@ -1,4 +1,5 @@
 import "./globals.css";
+import 'primeicons/primeicons.css';
 
 // export const metadata = {
 //   title: "Controle Financeiro",

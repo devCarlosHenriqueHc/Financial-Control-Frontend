@@ -11,6 +11,8 @@
     "dependencies": {
         "financial-control-frontend": "file:",
         "next": "15.2.3",
+        "primeicons": "^7.0.0",
+        "primereact": "^10.9.4",
         "react": "^19.0.0",
         "react-dom": "^19.0.0"
     },

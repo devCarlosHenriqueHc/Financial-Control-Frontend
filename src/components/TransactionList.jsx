@@ -36,10 +36,11 @@ export const TransactionList = ({ transactions, onDelete }) => {
               )}
               <button
                 onClick={() => onDelete(transaction.id)} // Ação de deletar
-                className="text-red-500 hover:text-red-700 text-lg cursor-pointer" // Adicionando cursor-pointer
+                className="text-white hover:text-white text-lg cursor-pointer" // Adicionando cursor-pointer
                 title="Remover transação"
               >
-                🗑️
+                <i className="pi pi-trash text-xl"></i>
+
               </button>
             </div>
           </li>
