@@ -6,7 +6,6 @@ import { Select } from "../components/Select";
 import { SubmitButton } from "../components/SubmitButton";
 import { TransactionList } from "../components/TransactionList";
 
-// URL da API configurada via variável de ambiente
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
 const API_PATH = `${API_BASE_URL}/api/v1/transactions`;
 
@@ -60,6 +59,17 @@ export default function Home() {
     }
   };
 
+  // 🧮 Cálculo dos totais
+  const totalIncome = transactions
+    .filter((t) => t.type === "income")
+    .reduce((sum, t) => sum + t.amount, 0);
+
+  const totalExpense = transactions
+    .filter((t) => t.type === "expense")
+    .reduce((sum, t) => sum + t.amount, 0);
+
+  const total = totalIncome - totalExpense;
+
   return (
     <div className="w-full flex justify-center dark:bg-[#222] dark:text-white h-screen">
       <div className="w-[450px] max-w-[450px] flex flex-col gap-2">
@@ -86,6 +96,22 @@ export default function Home() {
         <Select value={type} onChange={(e) => setType(e.target.value)} />
 
         <SubmitButton onClick={addTransaction} />
+
+        {/* Totais */}
+        <div className="w-full flex justify-between mt-4 px-2 py-3 rounded bg-gray-100 dark:bg-gray-800">
+          <div>
+            <p className="text-sm text-gray-500">Entradas</p>
+            <p className="text-green-500 font-bold">R$ {totalIncome.toFixed(2)}</p>
+          </div>
+          <div>
+            <p className="text-sm text-gray-500">Saídas</p>
+            <p className="text-red-500 font-bold">R$ {totalExpense.toFixed(2)}</p>
+          </div>
+          <div>
+            <p className="text-sm text-gray-500">Total</p>
+            <p className="font-bold">R$ {total.toFixed(2)}</p>
+          </div>
+        </div>
 
         <TransactionList transactions={transactions} />
       </div>
