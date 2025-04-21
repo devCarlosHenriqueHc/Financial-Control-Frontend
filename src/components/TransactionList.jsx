@@ -1,11 +1,11 @@
 import React from "react";
 
-export const TransactionList = ({ transactions }) => {
+export const TransactionList = ({ transactions, onDelete }) => {
   function formatDate(date) {
     const monthFormatter = new Intl.DateTimeFormat('pt-BR', { month: 'long' });
     const day = date.getDate();
     let month = monthFormatter.format(date);
-    return `${month}, ${day}`;
+    return `${month}, ${day}`;  // Corrigido o uso de template strings
   }
 
   function formatCurrency(amount) {
@@ -27,12 +27,21 @@ export const TransactionList = ({ transactions }) => {
               <p>{transaction.description}</p>
               <p className="italic text-xs">{formatDate(new Date(transaction.createdAt))}</p>
             </div>
-            {transaction.type === "income" && (
-              <p className="font-bold text-green-500">{formatCurrency(transaction.amount)}</p>
-            )}
-            {transaction.type === "expense" && (
-              <p className="font-bold text-red-500">{formatCurrency(transaction.amount)}</p>
-            )}
+            <div className="flex items-center gap-2">
+              {transaction.type === "income" && (
+                <p className="font-bold text-green-500">{formatCurrency(transaction.amount)}</p>
+              )}
+              {transaction.type === "expense" && (
+                <p className="font-bold text-red-500">{formatCurrency(transaction.amount)}</p>
+              )}
+              <button
+                onClick={() => onDelete(transaction.id)} // Ação de deletar
+                className="text-red-500 hover:text-red-700 text-lg cursor-pointer" // Adicionando cursor-pointer
+                title="Remover transação"
+              >
+                🗑️
+              </button>
+            </div>
           </li>
         ))
       )}

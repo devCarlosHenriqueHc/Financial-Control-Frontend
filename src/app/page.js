@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import { Input } from "../components/Input";
 import { Select } from "../components/Select";
 import { SubmitButton } from "../components/SubmitButton";
-import { TransactionList } from "../components/TransactionList";
+import { TransactionList } from "../components/TransactionList"; // Importando o TransactionList
 
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
 const API_PATH = `${API_BASE_URL}/api/v1/transactions`;
@@ -59,7 +59,18 @@ export default function Home() {
     }
   };
 
-  // 🧮 Cálculo dos totais
+  const deleteTransaction = async (id) => {
+    try {
+      const response = await fetch(`${API_PATH}/${id}`, {
+        method: "DELETE",
+      });
+      if (!response.ok) throw new Error("Erro ao deletar transação");
+      fetchTransactions();
+    } catch (error) {
+      console.error("Erro ao deletar transação:", error);
+    }
+  };
+
   const totalIncome = transactions
     .filter((t) => t.type === "income")
     .reduce((sum, t) => sum + t.amount, 0);
@@ -97,7 +108,6 @@ export default function Home() {
 
         <SubmitButton onClick={addTransaction} />
 
-        {/* Totais */}
         <div className="w-full flex justify-between mt-4 px-2 py-3 rounded bg-gray-100 dark:bg-gray-800">
           <div>
             <p className="text-sm text-gray-500">Entradas</p>
@@ -113,7 +123,8 @@ export default function Home() {
           </div>
         </div>
 
-        <TransactionList transactions={transactions} />
+        {/* Lista de transações com botão de deletar */}
+        <TransactionList transactions={transactions} onDelete={deleteTransaction} /> {/* Passando onDelete */}
       </div>
     </div>
   );
