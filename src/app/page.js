@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import { Input } from "../components/Input";
 import { Select } from "../components/Select";
 import { SubmitButton } from "../components/SubmitButton";
-import { TransactionList } from "../components/TransactionList"; // Importando o TransactionList
+import { TransactionList } from "../components/TransactionList";
 
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
 const API_PATH = `${API_BASE_URL}/api/v1/transactions`;
@@ -14,12 +14,14 @@ export default function Home() {
   const [amount, setAmount] = useState("");
   const [type, setType] = useState("income");
   const [transactions, setTransactions] = useState([]);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     fetchTransactions();
   }, []);
 
   const fetchTransactions = async () => {
+    setLoading(true);
     try {
       const response = await fetch(API_PATH);
       if (!response.ok) throw new Error("Erro ao buscar transações");
@@ -27,6 +29,8 @@ export default function Home() {
       setTransactions(data);
     } catch (error) {
       console.error("Erro ao carregar transações:", error);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -42,6 +46,7 @@ export default function Home() {
       type,
     };
 
+    setLoading(true);
     try {
       const response = await fetch(API_PATH, {
         method: "POST",
@@ -53,21 +58,26 @@ export default function Home() {
 
       setDescription("");
       setAmount("");
-      fetchTransactions();
+      await fetchTransactions();
     } catch (error) {
       console.error("Erro ao adicionar transação:", error);
+    } finally {
+      setLoading(false);
     }
   };
 
   const deleteTransaction = async (id) => {
+    setLoading(true);
     try {
       const response = await fetch(`${API_PATH}/${id}`, {
         method: "DELETE",
       });
       if (!response.ok) throw new Error("Erro ao deletar transação");
-      fetchTransactions();
+      await fetchTransactions();
     } catch (error) {
       console.error("Erro ao deletar transação:", error);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -106,7 +116,15 @@ export default function Home() {
         <label className="mt-2 mb-[-5px]">Selecione tipo da transação</label>
         <Select value={type} onChange={(e) => setType(e.target.value)} />
 
-        <SubmitButton onClick={addTransaction} />
+        <button
+          onClick={addTransaction}
+          disabled={loading}
+          className={`bg-blue-600 hover:bg-blue-700 transition text-white py-2 rounded font-semibold ${
+            loading ? "opacity-50 cursor-not-allowed" : ""
+          }`}
+        >
+          {loading ? "Adicionando..." : "Adicionar Transação"}
+        </button>
 
         <div className="w-full flex justify-between mt-4 px-2 py-3 rounded bg-gray-100 dark:bg-gray-800">
           <div>
@@ -123,8 +141,33 @@ export default function Home() {
           </div>
         </div>
 
-        {/* Lista de transações com botão de deletar */}
-        <TransactionList transactions={transactions} onDelete={deleteTransaction} /> {/* Passando onDelete */}
+        {loading && (
+          <div className="flex justify-center items-center gap-2 text-blue-500 font-medium my-2">
+            <svg
+              className="animate-spin h-5 w-5 text-blue-500"
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+            >
+              <circle
+                className="opacity-25"
+                cx="12"
+                cy="12"
+                r="10"
+                stroke="currentColor"
+                strokeWidth="4"
+              ></circle>
+              <path
+                className="opacity-75"
+                fill="currentColor"
+                d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"
+              ></path>
+            </svg>
+            Processando...
+          </div>
+        )}
+
+        <TransactionList transactions={transactions} onDelete={deleteTransaction} />
       </div>
     </div>
   );
